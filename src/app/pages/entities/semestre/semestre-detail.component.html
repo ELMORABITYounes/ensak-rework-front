@@ -1,0 +1,37 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="semestre">
+            <h2><span>Semestre</span> {{semestre.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Nom</span></dt>
+                <dd>
+                    <span>{{semestre.nom}}</span>
+                </dd>
+                <dt><span>Niveau</span></dt>
+                <dd>
+                    <div *ngIf="semestre.niveau">
+                        <a [routerLink]="['/pages/niveaux/niveau', semestre.niveau?.id, 'view']">{{semestre.niveau?.nom}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button *jhiHasAnyAuthority="['ROLE_ADMIN']" type="button"
+                    [routerLink]="['/pages/semestres/semestre', semestre.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

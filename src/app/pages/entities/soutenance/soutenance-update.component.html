@@ -1,0 +1,105 @@
+<nb-card accent="info">
+  <nb-card-body>
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <form [formGroup]="soutenanceForm" role="form" novalidate (ngSubmit)="save()">
+          <h2 id="jhi-soutenance-heading">Ajouter ou modifier un Soutenance</h2>
+          <hr>
+          <jhi-alert-error></jhi-alert-error>
+          <div class="form-group col-md-6">
+            <label class="form-control-label" for="field_date">Date de soutenance</label>
+            <div class="d-flex">
+              <input id="field_date" type="datetime-local" class="form-control" formControlName="date" required/>
+            </div>
+            <div [hidden]="!(soutenanceForm.controls.date?.dirty && soutenanceForm.controls.date?.invalid)">
+              <small class="form-text text-danger"
+                     [hidden]="!soutenanceForm.controls.date?.errors?.required">
+                This field is required.
+              </small>
+              <small class="form-text text-danger"
+                     [hidden]="!soutenanceForm.controls.date?.errors?.ZonedDateTimelocal">
+                This field should be a date and time.
+              </small>
+            </div>
+          </div>
+
+          <div class="col-md-12" formArrayName="membresJuries">
+                <h3>Membres de Jury:</h3>
+                <div style="margin-bottom: 10px"
+                     *ngFor="let membre of soutenanceForm['controls'].membresJuries['controls']; let i=index">
+                  <div class="col-md-12">
+                    <h5>Membre {{i + 1}}</h5>
+                  </div>
+                  <div [formGroupName]="i">
+                    <div class="form-row">
+                      <div class="col-md-6">
+                        <label class="form-control-label">Nom du membre:</label>
+                        <div class="d-flex">
+                          <input type="text" class="form-control" placeholder="Nom du membre" formControlName="nom"
+                                 required/>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-control-label">Prénom du membre:</label>
+                        <div class="d-flex">
+                          <input type="text" class="form-control" placeholder="Prénom du membre" formControlName="prenom"
+                                 required/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-6">
+                        <label class="form-control-label">Email du membre:</label>
+                        <div class="d-flex">
+                          <input type="text" class="form-control" placeholder="Email du membre" formControlName="email"
+                                 required/>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-control-label">Rôle du membre:</label>
+                        <div class="d-flex">
+                          <select class="form-control" placeholder="Rôle du membre" formControlName="roleMembre" required>
+                            <option value="ENCADRANT">Encadrant</option>
+                            <option value="PRESIDANT">Présidant</option>
+                            <option value="EXAMINATEUR">Examinateur</option>
+                            <option value="INVITE">Invité</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-12">
+                        <button style="margin-top: 10px"  *ngIf="soutenanceForm.controls.membresJuries.controls.length > 3"
+                                class="btn btn-xs btn-danger float-right" (click)="removeMembre(i)">
+                          <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <div style="margin-bottom: 10px">
+                <div class="form-row">
+                  <div class="col-12">
+                    <button type="button" class="btn btn-sm btn-success float-right" (click)="addMembre()">
+                      <fa-icon [icon]="'plus'"></fa-icon>
+                      Ajouter un membre
+                    </button>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div>
+            <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+              <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+            </button>
+            <button type="submit" id="save-entity" [disabled]="soutenanceForm.invalid || isSaving"
+                    class="btn btn-primary">
+              <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

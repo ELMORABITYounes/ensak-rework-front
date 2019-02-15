@@ -1,0 +1,48 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="societe">
+            <h2><span>Societe</span> {{societe.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Nom</span></dt>
+                <dd>
+                    <span>{{societe.nom}}</span>
+                </dd>
+                <dt><span>Ville</span></dt>
+                <dd>
+                    <span>{{societe.ville}}</span>
+                </dd>
+                <dt><span>Adresse</span></dt>
+                <dd>
+                    <span>{{societe.adresse}}</span>
+                </dd>
+              <dt><span>Télephone</span></dt>
+                <dd>
+                    <span>{{societe.telephone}}</span>
+                </dd>
+
+                <dt><span>Secteurs Activite</span></dt>
+                <dd>
+                    <span>{{societe.secteursActivite}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_STUDENT']" type="button"
+                    [routerLink]="['/pages/societes/societe', societe.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

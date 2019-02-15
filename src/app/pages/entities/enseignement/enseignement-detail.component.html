@@ -1,0 +1,45 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="enseignement">
+            <h2><span>Enseignement</span> {{enseignement.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Semestre</span></dt>
+                <dd>
+                    <div *ngIf="enseignement.semestre">
+                        <a [routerLink]="['/pages/semestres/semestre', enseignement.semestre?.id, 'view']">{{enseignement.semestre?.nom}}</a>
+                    </div>
+                </dd>
+                <dt><span>Module</span></dt>
+                <dd>
+                    <div *ngIf="enseignement.module">
+                        <a [routerLink]="['/pages/modules/module', enseignement.module?.id, 'view']">{{enseignement.module?.nom}}</a>
+                    </div>
+                </dd>
+                <dt><span>Professeur</span></dt>
+                <dd>
+                    <div *ngIf="enseignement.professeur">
+                        <a [routerLink]="['/pages/professeurs/professeur', enseignement.professeur?.id, 'view']">{{enseignement.professeur?.somme}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button *jhiHasAnyAuthority="['ROLE_ADMIN']"  type="button"
+                    [routerLink]="['/pages/enseignements/enseignement', enseignement.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

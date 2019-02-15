@@ -1,0 +1,98 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div>
+  <div class="row page-header">
+    <div class="col-lg-12">
+      <h2>Etudiants:</h2>
+      <hr>
+      <button id="jh-create-entity" class="btn btn-md btn-primary float-right jh-create-entity create-etudiant" [routerLink]="['/pages/etudiants/etudiant/new']">
+        <fa-icon [icon]="'plus'"></fa-icon>
+        <span >
+            Ajouter un Etudiant
+            </span>
+      </button>
+    </div>
+  </div>
+    <jhi-alert-error></jhi-alert-error><jhi-alert></jhi-alert>
+    <br/>
+  <div *ngIf="loading" class="text-center">
+    <h3 class="text-center">Chargement...</h3>
+    <img src="assets/images/loader.gif">
+  </div>
+    <div class="table-responsive" *ngIf="etudiants">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cne"><span>Cne</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="user.firstName"><span>Prénom</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="user.lastName"><span>Nom</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="user.username"><span>Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="user.telephone"><span>Télephone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="niveau.nom"><span>Niveau</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="image"><span>Image</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="user.enabled"><span>Etat du compte</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let etudiant of etudiants ;trackBy: trackId">
+                <td><a [routerLink]="['/pages/etudiants/etudiant', etudiant.id, 'view' ]">{{etudiant.id}}</a></td>
+                <td>{{etudiant.cne}}</td>
+              <td>{{etudiant.user.firstName}}</td>
+              <td>{{etudiant.user.lastName}}</td>
+              <td>{{etudiant.user.username}}</td>
+              <td>{{etudiant.user.telephone}}</td>
+              <td>
+                    <div *ngIf="etudiant.niveau">
+                        <a [routerLink]="['/pages/niveaux/niveau', etudiant.niveau?.id, 'view' ]" >{{etudiant.niveau?.nom}}</a>
+                    </div>
+                </td>
+              <td>
+                <a *ngIf="etudiant.image" (click)="openFile(etudiant.imageContentType, etudiant.image)">
+                  <img [src]="'data:' + etudiant.imageContentType + ';base64,' + etudiant.image" style="max-height: 30px;" alt="etudiant image"/>
+                </a>
+              </td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="setActive(etudiant, true)" *ngIf="!etudiant.user.enabled"
+                >Deactivé</button>
+                <button class="btn btn-success btn-sm" (click)="setActive(etudiant, false)" *ngIf="etudiant.user.enabled"
+                        [disabled]="currentAccount === etudiant.user.username">Activé</button>
+              </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/pages/etudiants/etudiant', etudiant.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/pages/etudiants/etudiant', etudiant.id, 'edit']"
+                                class="btn btn-primary btn-sm" style="border-radius: 0 !important;">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/pages/etudiants/', { outlets: { popup: 'etudiant/'+ etudiant.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm"
+                                [disabled]="currentAccount === etudiant.user.username">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="etudiants && etudiants.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

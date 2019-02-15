@@ -1,0 +1,95 @@
+<nb-card accent="info">
+  <nb-card-body>
+    <div class="emp-profile">
+      <jhi-alert-error></jhi-alert-error>
+      <jhi-alert></jhi-alert>
+      <div class="row" style="margin-bottom: 30px">
+        <div class="col-md-4">
+          <div class="profile-img">
+            <img [src]="img" alt="Image de profile"/>
+          </div>
+        </div>
+        <div class="col-md-6" style="margin-top: 30px">
+          <div class="profile-head col-md-8">
+            <h4>
+              {{profile?.user.firstName}} {{profile?.user.lastName}}
+            </h4>
+            <h5 *ngIf="authService.hasAnyAuthority(['ROLE_STUDENT'])">
+              {{profile?.niveau.nom}}
+            </h5>
+            <h5 *ngIf="authService.hasAnyAuthority(['ROLE_TEACHER'])">
+              Département {{profile?.departement.nom}}
+            </h5>
+          </div>
+        </div>
+        <div class="col-md-2" style="margin-bottom: 30px">
+          <button routerLink="/pages/profile/edit" type="button" class="btn btn-md btn-outline-primary float-right"><fa-icon [icon]="'pencil-alt'"></fa-icon> Editer</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="profile-work">
+            <p>STAGES EFECTUES</p>
+            <a routerLink="/pages/stages/stage"><span class="badge badge-info">1</span> stages</a><br/>
+            <p>MODULES ETUDIES</p>
+            <a routerLink="/pages/modules/module"><span class="badge badge-info">1</span> modules</a><br/>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="tab-content profile-tab">
+            <div class="tab-pane fade show active">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Nom:</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{profile?.user.lastName}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Prénom:</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{profile?.user.firstName}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Email:</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{profile?.user.username}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Télephone:</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{profile?.user.telephone}}</p>
+                </div>
+              </div>
+              <div *jhiHasAnyAuthority="'ROLE_TEACHER'" class="row">
+                <div class="col-md-6">
+                  <label>Numéro de somme:</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{profile?.somme}}</p>
+                </div>
+              </div>
+              <div *jhiHasAnyAuthority="'ROLE_STUDENT'" class="row">
+                <div class="col-md-6">
+                  <label>CNE:</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{profile?.cne}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

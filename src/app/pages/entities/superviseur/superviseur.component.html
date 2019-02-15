@@ -1,0 +1,72 @@
+<nb-card accent="info">
+  <nb-card-body>
+    <div>
+      <div class="row page-header">
+        <div class="col-lg-12">
+      <h2 id="page-heading">
+        <span>Superviseurs</span>
+      <hr>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-superviseur" [routerLink]="['/pages/superviseurs/superviseur/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Ajouter un Superviseur
+            </span>
+        </button>
+    </h2>
+        </div>
+      </div>
+      <jhi-alert-error></jhi-alert-error><jhi-alert></jhi-alert>
+      <br/>
+    <div class="table-responsive" *ngIf="superviseurs">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="nom"><span>Nom</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="prenom"><span>Prenom</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="email"><span>Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="tel"><span>Tel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="societe.nom"><span>Societe</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let superviseur of superviseurs ;trackBy: trackId">
+                <td><a [routerLink]="['/pages/superviseurs/superviseur', superviseur.id, 'view' ]">{{superviseur.id}}</a></td>
+                <td>{{superviseur.nom}}</td>
+                <td>{{superviseur.prenom}}</td>
+                <td>{{superviseur.email}}</td>
+                <td>{{superviseur.tel}}</td>
+                <td>
+                    <div *ngIf="superviseur.societe">
+                        <a [routerLink]="['/pages/societes/societe/', superviseur.societe?.id, 'view' ]" >{{superviseur.societe?.nom}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/pages/superviseurs/superviseur', superviseur.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/pages/superviseurs/superviseur', superviseur.id, 'edit']"
+                                class="btn btn-primary btn-sm" style="border-radius: 0 !important;">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'superviseur/'+ superviseur.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

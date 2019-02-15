@@ -1,0 +1,66 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <div *ngIf="soutenance">
+            <h2><span>Soutenance</span> {{soutenance.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Date</span></dt>
+                <dd>
+                    <span>{{soutenance.date | date:'full'}}</span>
+                </dd>
+            </dl>
+          <h3>Commité de Jury</h3>
+          <div class="container">
+            <div *ngFor="let membre of soutenance.membresJuries;let i=index" class="row-md card jh-entity-details" style="margin-bottom: 10px">
+              <div class="card-header">
+                <h5>Membre {{i+1}}</h5>
+              </div>
+              <div class="card-body row">
+                <div class="col-md-6">
+                  <dt><span>Nom du membre</span></dt>
+                  <dd>
+                    <span>{{membre.nom}}</span>
+                  </dd>
+                </div>
+                <div class="col-md-6">
+                  <dt><span>Prénom du membre</span></dt>
+                  <dd>
+                    <span>{{membre.prenom}}</span>
+                  </dd>
+                </div>
+                <div class="col-md-6">
+                  <dt><span>Email du membre</span></dt>
+                  <dd>
+                    <span>{{membre.email}}</span>
+                  </dd>
+                </div>
+                <div class="col-md-6">
+                  <dt><span>Role du membre</span></dt>
+                  <dd>
+                    <span>{{membre.roleMembre}}</span>
+                  </dd>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_TEACHER']" type="button"
+                    [routerLink]="['/pages/soutenances/soutenance', soutenance.id, 'edit',idStage]"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

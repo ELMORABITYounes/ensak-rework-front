@@ -1,0 +1,167 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-stage-heading">Ajouter ou modifier un Stage</h2>
+          <hr/>
+            <div>
+              <jhi-alert-error></jhi-alert-error>
+              <jhi-alert></jhi-alert>
+              <div class="form-group" [hidden]="true">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="stage.id" readonly />
+                </div>
+              <div class="form-group">
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <label class="form-control-label" for="field_sujet">Sujet</label>
+                    <textarea class="form-control" name="sujet" id="field_sujet"
+                              [(ngModel)]="stage.sujet" required></textarea>
+                    <div [hidden]="!(editForm.controls.sujet?.dirty && editForm.controls.sujet?.invalid)">
+                      <small class="form-text text-danger"
+                             [hidden]="!editForm.controls.sujet?.errors?.required">
+                        This field is required.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-control-label" for="field_technologies">Technologies</label>
+                    <input type="text" class="form-control" name="technologies" id="field_technologies"
+                           [(ngModel)]="stage.technologies" required/>
+                    <div [hidden]="!(editForm.controls.technologies?.dirty && editForm.controls.technologies?.invalid)">
+                      <small class="form-text text-danger"
+                             [hidden]="!editForm.controls.technologies?.errors?.required">
+                        This field is required.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <label class="form-control-label" for="field_dateDebut">Date Debut</label>
+                    <div class="input-group">
+                      <input id="field_dateDebut" type="text" class="form-control" name="dateDebut" ngbDatepicker  #dateDebutDp="ngbDatepicker" [(ngModel)]="stage.dateDebut"
+                             required/>
+                      <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateDebutDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.dateDebut?.dirty && editForm.controls.dateDebut?.invalid)">
+                      <small class="form-text text-danger"
+                             [hidden]="!editForm.controls.dateDebut?.errors?.required">
+                        This field is required.
+                      </small>
+                    </div>
+                  </div>
+                <div class="col-md-6">
+                    <label class="form-control-label" for="field_dateFin">Date Fin</label>
+                    <div class="input-group">
+                        <input id="field_dateFin" type="text" class="form-control" name="dateFin" ngbDatepicker  #dateFinDp="ngbDatepicker" [(ngModel)]="stage.dateFin"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateFinDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.dateFin?.dirty && editForm.controls.dateFin?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.dateFin?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-row">
+                <div class="col-md-6">
+                    <label class="form-control-label" for="field_type">Type</label>
+                    <select class="form-control" name="type" [(ngModel)]="stage.type" id="field_type"  required>
+                        <option value="PFA">PFA</option>
+                        <option value="PFE">PFE</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.type?.dirty && editForm.controls.type?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.type?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                  <div class="col-md-6">
+                    <label class="form-control-label" for="field_professeurEncadrant">Professeur Encadrant</label>
+                    <select class="form-control" id="field_professeurEncadrant" name="professeurEncadrant" [(ngModel)]="stage.professeurEncadrant"  required>
+                      <option *ngIf="!editForm.value.professeurEncadrant" [ngValue]="null" selected></option>
+                      <option [ngValue]="professeurOption.id === stage.professeurEncadrant?.id ? stage.professeurEncadrant : professeurOption" *ngFor="let professeurOption of professeurs; trackBy: trackProfesseurById">{{professeurOption.user.firstName}} {{professeurOption.user.lastName}}</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.professeurEncadrant?.dirty && editForm.controls.professeurEncadrant?.invalid)">
+                      <small class="form-text text-danger"
+                             [hidden]="!editForm.controls.professeurEncadrant?.errors?.required">
+                        This field is required.
+                      </small>
+                    </div>
+                  </div>
+
+                <!--<div class="form-group">
+                    <label class="form-control-label" for="field_soutenance">Soutenance</label>
+                    <select class="form-control" id="field_soutenance" name="soutenance" [(ngModel)]="stage.soutenance">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="soutenanceOption.id === stage.soutenance?.id ? stage.soutenance : soutenanceOption" *ngFor="let soutenanceOption of soutenances; trackBy: trackSoutenanceById">{{soutenanceOption.date}}</option>
+                    </select>
+                  <a [routerLink]="['/pages/soutenances/soutenance/new']" class="float-right">Ajouter un soutenance</a>
+                </div>-->
+
+                <div [hidden]="!(editForm.controls.etudiant?.dirty && editForm.controls.etudiant?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.etudiant?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+                </div></div>
+              <div class="form-group">
+                <div class="form-row">
+              <div class="col-md-6">
+                <label class="form-control-label" for="field_societe">Societe</label>
+                <select class="form-control" id="field_societe" (change)="onChange()" name="societe" [(ngModel)]="stage.societe"  required>
+                  <option *ngIf="!editForm.value.societe" [ngValue]="null" selected></option>
+                  <option [ngValue]="societeOption.id === stage.societe?.id ? stage.societe : societeOption" *ngFor="let societeOption of societes; trackBy: trackSocieteById">{{societeOption.nom}}</option>
+                </select>
+                <a [routerLink]="['/pages/societes/societe/new']" class="float-right">Ajouter un société</a>
+              </div>
+              <div [hidden]="!(editForm.controls.societe?.dirty && editForm.controls.societe?.invalid)">
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.societe?.errors?.required">
+                  This field is required.
+                </small>
+              </div>
+                <div class="col-md-6">
+                    <label class="form-control-label" for="field_superviseur">Superviseur</label>
+                    <select class="form-control" id="field_superviseur" name="superviseur" [(ngModel)]="stage.superviseur"  required>
+                        <option *ngIf="!editForm.value.superviseur" [ngValue]="null" selected></option>
+                        <option [ngValue]="superviseurOption.id === stage.superviseur?.id ? stage.superviseur : superviseurOption" *ngFor="let superviseurOption of superviseurs; trackBy: trackSuperviseurById">{{superviseurOption.nom}} {{superviseurOption.prenom}}</option>
+                    </select>
+                  <a [routerLink]="['/pages/superviseurs/superviseur/new']" class="float-right">Ajouter un supérviseur</a>
+                </div>
+                <div [hidden]="!(editForm.controls.superviseur?.dirty && editForm.controls.superviseur?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.superviseur?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+                </div></div>
+              </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

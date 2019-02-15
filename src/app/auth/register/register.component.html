@@ -1,0 +1,224 @@
+<div class="row holder">
+  <div class="mx-auto mt-5 col-md-10 col-lg-8">
+    <nb-card accent="success">
+      <nb-card-header><img src="assets/images/logo-ensak.png" width="100" height="60"><img class="float-right" src="assets/images/logo-university.png" height="60"></nb-card-header>
+      <nb-card-body>
+<h1 id="title" class="text-center title">S'inscrire</h1>
+
+<nb-alert outline="success" *ngIf="mode==SUCCESS" role="alert">
+  <p class="alert-title"><b>Succes!</b></p>
+  <ul class="alert-message-list">
+    <li class="alert-message">Vous êtes bien enregistré</li>
+  </ul>
+</nb-alert>
+
+<nb-alert outline="danger" *ngIf="mode==ERROR" role="alert">
+  <p class="alert-title"><b>Erreur!</b></p>
+  <ul class="alert-message-list">
+    <li class="alert-message">Un erreur est survenu ressayez ulterieurement</li>
+  </ul>
+</nb-alert>
+
+<form [formGroup]="userForm" (ngSubmit)="onRegister()" aria-labelledby="title">
+
+  <div class="form-group">
+    <div class="form-row">
+      <div class="col-md-6">
+      <label class="label" for="input-lastName">Nom:</label>
+    <input nbInput
+           fullWidth
+           [status]="isInvalidAndDirty('lastName') ? 'danger' : 'success'"
+           formControlName="lastName"
+           id="input-lastName"
+           placeholder="Nom"
+           autofocus>
+          <small class="form-text text-danger" *ngIf="hasError('lastName', 'required')">
+            Le nom est requis
+          </small>
+      </div>
+      <div class="col-md-6">
+        <label class="label" for="input-firstName">Prénom:</label>
+        <input nbInput
+               fullWidth
+               [status]="isInvalidAndDirty('firstName') ? 'danger' : 'success'"
+               formControlName="firstName"
+               id="input-firstName"
+               placeholder="Prénom"
+               autofocus>
+        <small class="form-text text-danger" *ngIf="hasError('firstName', 'required')">
+          Le prénom est requis
+        </small>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="form-row">
+      <div class="col-md-6">
+        <label class="label" for="input-email">Email address:</label>
+        <input nbInput
+               fullWidth
+               [status]="isInvalidAndDirty('username') ? 'danger' : 'success'"
+               formControlName="username"
+               id="input-email"
+               pattern=".+@.+\..+"
+               placeholder="Email address"
+               autofocus>
+        <small class="form-text text-danger" *ngIf="hasError('username', 'usernameTaken')">
+          Email already in use
+        </small>
+        <small class="form-text text-danger" *ngIf="hasError('username', 'email')">
+          Email is not valid
+        </small>
+      </div>
+      <div class="col-md-6">
+        <label class="label">Vous êtes:</label>
+        <nb-select
+          (selectedChange)="onChange($event)"
+          shape="rectangle"
+          outline
+          [status]="isInvalidAndDirty('type') ? 'danger' : 'success'"
+          formControlName="type"
+          required>
+          <nb-option value="STUDENT">Etudiant</nb-option>
+          <nb-option value="TEACHER">Professeur</nb-option>
+        </nb-select>
+      </div>
+    </div>
+    </div>
+
+  <div class="form-group" *ngIf="userForm.controls.type.value=='STUDENT'">
+    <div class="form-row">
+      <div class="col-md-6">
+        <label class="label">CNE:</label>
+        <input nbInput
+               fullWidth
+               [status]="isInvalidAndDirty('cneOrSomme') ? 'danger' : 'success'"
+               formControlName="cneOrSomme"
+               placeholder="CNE"
+        type="number">
+        <small class="form-text text-danger" *ngIf="hasError('cneOrSomme', 'required')">
+          Le champs CNE est requis
+        </small>
+        <small class="form-text text-danger" *ngIf="hasError('cneOrSomme', 'CneTaken')">
+          CNE déja utilisé
+        </small>
+        <small class="form-text text-danger" *ngIf="hasError('cneOrSomme', 'min')">
+          Minimum 1000000000
+        </small>
+        <small class="form-text text-danger" *ngIf="hasError('cneOrSomme', 'max')">
+          Maximum 9999999999
+        </small>
+      </div>
+      <div class="col-md-6">
+        <label class="label">Niveau d'étude:</label>
+        <nb-select
+          shape="rectangle"
+          outline
+          placeholder="niveau d'études"
+          [status]="isInvalidAndDirty('niveauOrDepartement') ? 'danger' : 'success'"
+          formControlName="niveauOrDepartement"
+          required>
+          <nb-option *ngFor="let niveauOption of niveaux" value="{{niveauOption.id}}">{{niveauOption.nom}}</nb-option>
+        </nb-select>
+        <small class="form-text text-danger" *ngIf="hasError('niveauOrDepartement', 'required')">
+          Le champs Niveau est requis
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group" *ngIf="userForm.controls.type.value=='TEACHER'">
+    <div class="form-row">
+      <div class="col-md-6">
+        <label class="label">Numero de Somme:</label>
+        <input nbInput
+               fullWidth
+               [status]="isInvalidAndDirty('cneOrSomme') ? 'danger' : 'success'"
+               formControlName="cneOrSomme"
+               placeholder="Numero de somme"
+               autofocus
+               type="number">
+        <small class="form-text text-danger" *ngIf="hasError('cneOrSomme', 'required')">
+          Le champs CNE est requis
+        </small>
+        <small class="form-text text-danger" *ngIf="hasError('cneOrSomme', 'SommeTaken')">
+          Numero de somme déja utilisé
+        </small>
+        <small class="form-text text-danger" *ngIf="hasError('cneOrSomme', 'min')">
+          Minimum 1000000000
+        </small>
+        <small class="form-text text-danger" *ngIf="hasError('cneOrSomme', 'max')">
+          Maximum 9999999999
+        </small>
+      </div>
+      <div class="col-md-6">
+        <label class="label">Département:</label>
+        <nb-select
+          shape="rectangle"
+          outline
+          placeholder="departement"
+          [status]="isInvalidAndDirty('niveauOrDepartement') ? 'danger' : 'success'"
+          formControlName="niveauOrDepartement"
+          required>
+          <nb-option *ngFor="let departementOption of departements" value="{{departementOption.id}}">{{departementOption.nom}}</nb-option>
+        </nb-select>
+        <small class="form-text text-danger" *ngIf="hasError('niveauOrDepartement', 'required')">
+          Le champs Département est requis
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-row">
+      <div class="col-md-6">
+    <label class="label" for="input-password">Password:</label>
+    <input nbInput
+           fullWidth
+           formControlName="password"
+           [status]="isInvalidAndDirty('password') ? 'danger' : 'success'"
+           type="password"
+           id="input-password"
+           placeholder="Password"
+           required
+           >
+           <small class="form-text text-danger" 
+           *ngIf="hasError('password', 'required')">
+            password is required
+          </small>
+      </div>
+      <div class="col-md-6">
+        <label class="label" for="repeated-password">Confirm Password:</label>
+        <input nbInput
+               fullWidth
+               formControlName="repeatedPassword"
+               [status]="isInvalidAndDirty('repeatedPassword') ? 'danger' : 'success'"
+               type="password"
+               id="repeated-password"
+               placeholder="Confirm Password"
+               required
+        >
+        <small class="form-text text-danger"
+               *ngIf="hasError('repeatedPassword', 'matchOther')">
+          passwords do not match
+        </small>
+      </div>
+    </div>
+  </div>
+    <div class="form-group">
+      <button nbButton
+              fullWidth
+              status="success"
+              [disabled]="submitted || userForm.invalid"
+              [class.btn-pulse]="submitted">
+        S'inscrire
+      </button>
+    </div>
+</form>
+<section class="text-center" aria-label="Login">
+  Déja inscris ? <a class="text-link" routerLink="../login">Se connecter</a>
+</section>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-professeur-heading">Ajouter ou modifier un Professeur</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!professeur.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="professeur.id" readonly />
+                </div>
+              <div ngModelGroup="user">
+                <div class="form-group" hidden>
+                  <input type="text" class="form-control" name="id"
+                         [(ngModel)]="professeur.user.id" readonly />
+                </div>
+                <div class="form-group">
+                  <label for="firstName">Prénom:</label>
+                  <input type="text" class="form-control" name="firstName" id="firstName" [(ngModel)]="professeur.user.firstName">
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Nom:</label>
+                  <input type="text" class="form-control" name="lastName" id="lastName" [(ngModel)]="professeur.user.lastName">
+                </div>
+                <div class="form-group">
+                  <label for="username">Email:</label>
+                  <input type="email" class="form-control" name="username" id="username" [(ngModel)]="professeur.user.username">
+                </div>
+                <div class="form-group">
+                  <label for="telephone">Télephone:</label>
+                  <input type="email" class="form-control" name="telephone" id="telephone" [(ngModel)]="professeur.user.telephone">
+                </div>
+              </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_somme">Somme</label>
+                    <input type="number" class="form-control" name="somme" id="field_somme"
+                        [(ngModel)]="professeur.somme" required min="1000000000" jhiMin="1000000000" max="9999999999" jhiMax="9999999999"/>
+                    <div [hidden]="!(editForm.controls.somme?.dirty && editForm.controls.somme?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.somme?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.somme?.errors?.min">
+                            This field should be at least 10000000.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.somme?.errors?.max">
+                            This field cannot be more than 99999999.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.somme?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_departement">Departement</label>
+                    <select class="form-control" id="field_departement" name="departement" [(ngModel)]="professeur.departement"  required>
+                        <option *ngIf="!editForm.value.departement" [ngValue]="null" selected></option>
+                        <option [ngValue]="departementOption.id === professeur.departement?.id ? professeur.departement : departementOption" *ngFor="let departementOption of departements; trackBy: trackDepartementById">{{departementOption.nom}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.departement?.dirty && editForm.controls.departement?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.departement?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+              <div class="form-group">
+                <label class="form-control-label" for="field_image">Image</label>
+                <div>
+                  <img [src]="'data:' + professeur.imageContentType + ';base64,' + professeur.image" style="max-height: 100px;" *ngIf="professeur.image" alt="profile image"/>
+                  <div *ngIf="professeur.image" class="form-text text-danger clearfix">
+                    <span class="pull-left">{{professeur.imageContentType}}, {{byteSize(professeur.image)}}</span>
+                    <button type="button" (click)="clearInputImage('image', 'imageContentType', 'fileImage')" class="btn btn-secondary btn-xs pull-right">
+                      <fa-icon [icon]="'times'"></fa-icon>
+                    </button>
+                  </div>
+                  <input type="file" id="file_image" (change)="setFileData($event, professeur, 'image', true)" accept="image/*"/>
+                </div>
+                <input type="hidden" class="form-control" name="image" id="field_image"
+                       [(ngModel)]="professeur.image" />
+                <input type="hidden" class="form-control" name="imageContentType" id="field_imageContentType"
+                       [(ngModel)]="professeur.imageContentType" />
+              </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

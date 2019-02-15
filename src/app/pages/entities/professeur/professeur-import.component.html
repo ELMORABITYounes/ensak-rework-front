@@ -1,0 +1,55 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+      <h2 id="jhi-professeur-heading">Importer à partir d'un fichier excel</h2>
+      <hr/>
+      <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_departement">Departement</label>
+                    <select class="form-control" id="field_departement" name="departement" [(ngModel)]="importList.departement"  required>
+                        <option *ngIf="!editForm.value.departement" [ngValue]="null" selected></option>
+                        <option [ngValue]="departementOption" *ngFor="let departementOption of departements">{{departementOption.nom}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.departement?.dirty && editForm.controls.departement?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.departement?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="form-control-label" for="file_excel">Le fichier Excel</label>
+              <div>
+                <input id="file_excel" type="file" name="file_excel" ngModel (change)="onFileChange($event)" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required/>
+              </div>
+            </div>
+
+        <div *ngIf="!isFileValide && !parsing" [hidden]="editForm.controls.file_excel?.errors?.required">
+          <small class="form-text text-danger">
+            Le fichier choisit est invalide.
+          </small>
+        </div>
+            <div [hidden]="errorLignes.length==0">
+              <small class="form-text text-danger">
+                Les lignes <span *ngFor="let index of errorLignes">{{index}}, </span> sont invalides.
+              </small>
+            </div>
+
+
+        <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving || !isFileValide" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span *ngIf="!isSaving">Save</span><span *ngIf="isSaving">Saving...</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

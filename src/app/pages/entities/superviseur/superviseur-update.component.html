@@ -1,0 +1,94 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-superviseur-heading">Ajouter ou modifier un Superviseur</h2>
+          <hr/>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!superviseur.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="superviseur.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nom">Nom</label>
+                    <input type="text" class="form-control" name="nom" id="field_nom"
+                        [(ngModel)]="superviseur.nom" required/>
+                    <div [hidden]="!(editForm.controls.nom?.dirty && editForm.controls.nom?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.nom?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prenom">Prenom</label>
+                    <input type="text" class="form-control" name="prenom" id="field_prenom"
+                        [(ngModel)]="superviseur.prenom" required/>
+                    <div [hidden]="!(editForm.controls.prenom?.dirty && editForm.controls.prenom?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.prenom?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_email">Email</label>
+                    <input type="text" class="form-control" name="email" id="field_email"
+                        [(ngModel)]="superviseur.email" required/>
+                    <div [hidden]="!(editForm.controls.email?.dirty && editForm.controls.email?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.email?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_tel">Tel</label>
+                    <input type="text" class="form-control" name="tel" id="field_tel"
+                        [(ngModel)]="superviseur.tel" required minlength="10" maxlength="10"/>
+                    <div [hidden]="!(editForm.controls.tel?.dirty && editForm.controls.tel?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.tel?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.tel?.errors?.minlength">
+                        This field is required to be at least 10 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.tel?.errors?.maxlength">
+                        This field cannot be longer than 10 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_societe">Societe</label>
+                    <select class="form-control" id="field_societe" name="societe" [(ngModel)]="superviseur.societe"  required>
+                        <option *ngIf="!editForm.value.societe" [ngValue]="null" selected></option>
+                        <option [ngValue]="societeOption.id === superviseur.societe?.id ? superviseur.societe : societeOption" *ngFor="let societeOption of societes; trackBy: trackSocieteById">{{societeOption.nom}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.societe?.dirty && editForm.controls.societe?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.societe?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,96 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div>
+  <div class="row page-header">
+    <div class="col-lg-12">
+      <h2>Mes Stages:</h2>
+      <hr>
+      <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-stage" [routerLink]="['/pages/etudiant/stage/new']">
+        <fa-icon [icon]="'plus'"></fa-icon>
+        <span >
+            Ajouter un Stage
+            </span>
+      </button>
+    </div>
+  </div>
+  <jhi-alert-error></jhi-alert-error>
+  <jhi-alert></jhi-alert>
+  <br/>
+  <div *ngIf="loading" class="text-center">
+    <h3 class="text-center">Chargement...</h3>
+    <img src="assets/images/loader.gif">
+  </div>
+    <div class="table-responsive" *ngIf="stages">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="sujet"><span>Sujet</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="dateDebut"><span>Date Debut</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="dateFin"><span>Date Fin</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="technologies"><span>Technologies</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="type"><span>Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="soutenance.date"><span>Soutenance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="superviseur.nom"><span>Encadrant de la société</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="professeurEncadrant.nom"><span>Professeur Encadrant</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="societe.nom"><span>Societe</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let stage of stages ;trackBy: trackId">
+                <td><a [routerLink]="['/pages/professeur/stages', stage.id, 'view' ]">{{stage.id}}</a></td>
+                <td>{{stage.sujet}}</td>
+                <td>{{stage.dateDebut | date:'mediumDate'}}</td>
+                <td>{{stage.dateFin | date:'mediumDate'}}</td>
+                <td>{{stage.technologies}}</td>
+                <td>{{stage.type}}</td>
+                <td>
+                    <div *ngIf="stage.soutenance">
+                        <a [routerLink]="['/pages/soutenances/soutenance', stage.soutenance?.id, 'view' ,stage.id ]" >{{stage.soutenance?.date | date: 'full'}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="stage.superviseur">
+                        <a [routerLink]="['/pages/superviseurs/superviseur', stage.superviseur?.id, 'view' ]" >{{stage.superviseur?.nom}} {{stage.superviseur?.prenom}}</a>
+                    </div>
+                </td>
+              <td>
+                <div *ngIf="stage.professeurEncadrant">
+                  <a [routerLink]="['/pages/professeurs/professeur', stage.professeurEncadrant?.id, 'view']" >{{stage.professeurEncadrant?.user.lastName}} {{stage.professeurEncadrant?.user.firstName}}</a>
+                </div>
+              </td>
+                <td>
+                    <div *ngIf="stage.societe">
+                        <a [routerLink]="['/pages/societes/societe', stage.societe?.id, 'view' ]" >{{stage.societe?.nom}}</a>
+                    </div>
+                </td>
+              <td class="text-right">
+                <div class="btn-group flex-btn-group-container">
+                  <button type="submit"
+                          [routerLink]="['/pages/stages/stage', stage.id, 'view' ]"
+                          class="btn btn-info btn-sm">
+                    <fa-icon [icon]="'eye'"></fa-icon>
+                  </button>
+                  <button type="submit"
+                          [routerLink]="['/pages/etudiant/stage', stage.id, 'edit']"
+                          class="btn btn-primary btn-sm">
+                    <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="stages && stages.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

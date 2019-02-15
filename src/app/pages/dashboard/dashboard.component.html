@@ -1,0 +1,145 @@
+<nb-card accent="info">
+  <nb-card-body>
+    <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header">Vue générale :</h2>
+      <hr>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-6" style="margin-top: 20px">
+        <div class="card border-primary">
+          <div class="card-body bg-primary text-white">
+            <div class="row">
+              <div class="col-3">
+                <fa-icon [icon]="'random'" size="5x"></fa-icon>
+              </div>
+              <div class="col-9 text-right">
+                <h1>{{nbrFilieres}}</h1>
+                <h4>  Filières</h4>
+              </div>
+            </div>
+          </div>
+          <a routerLink="/pages/filieres/filiere">
+            <div class="card-footer bg-light text-primary">
+              <span class="float-left">Voir les détails</span>
+              <span class="float-right">
+                <fa-icon [icon]="'arrow-circle-right'"></fa-icon></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6" style="margin-top: 20px">
+        <div class="card border-secondary">
+          <div class="card-body bg-secondary text-white">
+            <div class="row">
+              <div class="col-3">
+                <fa-icon [icon]="'user-graduate'" size="5x"></fa-icon>
+              </div>
+              <div class="col-9 text-right">
+                <h1>{{nbrEtudiants}}</h1>
+                <h4>  Etudiants</h4>
+              </div>
+            </div>
+          </div>
+          <a routerLink="/pages/etudiants/etudiant">
+            <div class="card-footer bg-light text-secondary">
+              <span class="float-left">Voir les détails</span>
+              <span class="float-right"><fa-icon [icon]="'arrow-circle-right'"></fa-icon></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6" style="margin-top: 20px">
+        <div class="card border-success">
+          <div class="card-body bg-success text-white">
+            <div class="row">
+              <div class="col-3">
+                <fa-icon [icon]="'user-tie'" size="5x"></fa-icon>
+              </div>
+              <div class="col-9 text-right">
+                <h1>{{nbrProfesseurs}}</h1>
+                <h4>  Professeurs</h4>
+              </div>
+            </div>
+          </div>
+          <a routerLink="/pages/professeurs/professeur">
+            <div class="card-footer bg-light text-success">
+              <span class="float-left">Voir les détails</span>
+              <span class="float-right"><fa-icon [icon]="'arrow-circle-right'"></fa-icon></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6" style="margin-top: 20px">
+        <div class="card border-danger">
+          <div class="card-body bg-danger text-white">
+            <div class="row">
+              <div class="col-3">
+                <fa-icon [icon]="'book'" size="5x"></fa-icon>
+              </div>
+              <div class="col-9 text-right">
+                <h1>{{nbrModules}}</h1>
+                <h4>  Modules</h4>
+              </div>
+            </div>
+          </div>
+          <a routerLink="/pages/modules/module">
+            <div class="card-footer bg-light text-danger">
+              <span class="float-left">Voir les détails</span>
+              <span class="float-right"><fa-icon [icon]="'arrow-circle-right'"></fa-icon></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6" style="margin-top: 20px">
+        <div class="card border-warning">
+          <div class="card-body bg-warning text-white">
+            <div class="row">
+              <div class="col-3">
+                <fa-icon [icon]="'university'" size="5x"></fa-icon>
+              </div>
+              <div class="col-9 text-right">
+                <h1>{{nbrSocietes}}</h1>
+                <h4>  Sociétés</h4>
+              </div>
+            </div>
+          </div>
+          <a routerLink="/pages/societes/societe">
+            <div class="card-footer bg-light text-warning">
+              <span class="float-left">Voir les détails</span>
+              <span class="float-right"><fa-icon [icon]="'arrow-circle-right'"></fa-icon></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6" style="margin-top: 20px">
+        <div class="card border-info">
+          <div class="card-body bg-info text-white">
+            <div class="row">
+              <div class="col-3">
+                <fa-icon [icon]="'suitcase'" size="5x"></fa-icon>
+              </div>
+              <div class="col-9 text-right">
+                <h1>{{nbrStages}}</h1>
+                <h4>  Stages</h4>
+              </div>
+            </div>
+          </div>
+          <a routerLink="/pages/stages/stage">
+            <div class="card-footer bg-light text-info">
+              <span class="float-left">Voir les détails</span>
+              <span class="float-right"><fa-icon [icon]="'arrow-circle-right'"></fa-icon></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

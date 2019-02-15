@@ -1,0 +1,64 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="professeur">
+            <h2><span>Professeur</span> {{professeur.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Somme</span></dt>
+                <dd>
+                    <span>{{professeur.somme}}</span>
+                </dd>
+              <dt><span>Prénom</span></dt>
+              <dd>
+                <span>{{professeur.user.firstName}}</span>
+              </dd>
+              <dt><span>Nom</span></dt>
+              <dd>
+                <span>{{professeur.user.lastName}}</span>
+              </dd>
+              <dt><span>Email</span></dt>
+              <dd>
+                <span>{{professeur.user.username}}</span>
+              </dd>
+              <dt><span>Télephone</span></dt>
+              <dd>
+                <span>{{professeur.user.telephone}}</span>
+              </dd>
+                <dt><span>Departement</span></dt>
+                <dd>
+                    <div *ngIf="professeur.departement">
+                        <a [routerLink]="['/pages/departements/departement', professeur.departement?.id, 'view']">{{professeur.departement?.nom}}</a>
+                    </div>
+                </dd>
+            </dl>
+          <dl class="row-md jh-entity-details">
+            <dt><span>Image</span></dt>
+            <dd>
+              <div *ngIf="professeur.image">
+                <a (click)="openFile(professeur.imageContentType, professeur.image)">
+                  <img [src]="'data:' + professeur.imageContentType + ';base64,' + professeur.image" style="max-width: 100%;" alt="profile image"/>
+                </a>
+                {{professeur.imageContentType}}, {{byteSize(professeur.image)}}
+              </div>
+            </dd>
+          </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button *jhiHasAnyAuthority="['ROLE_ADMIN']" type="button"
+                    [routerLink]="['/pages/professeurs/professeur', professeur.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,82 @@
+<nb-card accent="info">
+  <nb-card-body>
+    <div>
+      <div class="row page-header">
+        <div class="col-lg-12">
+          <h2>Enseignements:</h2>
+          <hr>
+          <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-enseignement" [routerLink]="['/pages/enseignements/enseignement/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Ajouter un Enseignement
+            </span>
+          </button>
+        </div>
+      </div>
+      <jhi-alert-error></jhi-alert-error>
+      <jhi-alert></jhi-alert>
+      <br/>
+      <div *ngIf="loading" class="text-center">
+        <h3 class="text-center">Chargement...</h3>
+        <img src="assets/images/loader.gif">
+      </div>
+    <div class="table-responsive" *ngIf="enseignements">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="semestre.nom"><span>Semestre</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="module.nom"><span>Module</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let enseignement of enseignements ;trackBy: trackId">
+                <td><a [routerLink]="['/pages/enseignements/enseignement', enseignement.id, 'view' ]">{{enseignement.id}}</a></td>
+                <td>
+                    <div *ngIf="enseignement.semestre">
+                        <a [routerLink]="['/pages/semestres/semestre', enseignement.semestre?.id, 'view' ]" >{{enseignement.semestre?.nom}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="enseignement.module">
+                        <a [routerLink]="['/pages/modules/module', enseignement.module?.id, 'view' ]" >{{enseignement.module?.nom}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/pages/enseignements/enseignement', enseignement.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                        </button>
+                        <button
+                          type="submit"
+                                [routerLink]="['/pages/enseignements/enseignement', enseignement.id, 'edit']"
+                                class="btn btn-primary btn-sm" style="border-radius: 0 !important;">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/pages/enseignements/', { outlets: { popup: 'enseignement/'+ enseignement.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="enseignements && enseignements.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

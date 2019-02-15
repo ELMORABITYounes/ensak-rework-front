@@ -1,0 +1,104 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-etudiant-heading">Ajouter ou modifier un Etudiant</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!etudiant.id">
+                    <label for="idetudiant">ID</label>
+                    <input type="text" class="form-control" id="idetudiant" name="id"
+                        [(ngModel)]="etudiant.id" readonly />
+                </div>
+              <div ngModelGroup="user">
+                <div class="form-group" hidden>
+                  <input type="text" class="form-control" name="id"
+                         [(ngModel)]="etudiant.user.id" readonly />
+                </div>
+
+                <div class="form-group">
+                  <label for="firstName">Prénom:</label>
+                  <input type="text" class="form-control" name="firstName" id="firstName" [(ngModel)]="etudiant.user.firstName">
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Nom:</label>
+                  <input type="text" class="form-control" name="lastName" id="lastName" [(ngModel)]="etudiant.user.lastName">
+                </div>
+                <div class="form-group">
+                  <label for="username">Email:</label>
+                  <input type="email" class="form-control" name="username" id="username" [(ngModel)]="etudiant.user.username">
+                </div>
+                <div class="form-group">
+                  <label for="telephone">Télephone:</label>
+                  <input type="email" class="form-control" name="telephone" id="telephone" [(ngModel)]="etudiant.user.telephone">
+                </div>
+              </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cne">Cne</label>
+                    <input type="number" class="form-control" name="cne" id="field_cne"
+                        [(ngModel)]="etudiant.cne" required min="1000000000" jhiMin="1000000000" max="9999999999" jhiMax="9999999999"/>
+                    <div [hidden]="!(editForm.controls.cne?.dirty && editForm.controls.cne?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.cne?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.cne?.errors?.min">
+                            This field should be at least 1000000000.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.cne?.errors?.max">
+                            This field cannot be more than 9999999999.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.cne?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_niveau">Niveau</label>
+                    <select class="form-control" id="field_niveau" name="niveau" [(ngModel)]="etudiant.niveau"  required>
+                        <option *ngIf="!editForm.value.niveau" [ngValue]="null" selected></option>
+                        <option [ngValue]="niveauOption.id === etudiant.niveau?.id ? etudiant.niveau : niveauOption" *ngFor="let niveauOption of niveaus; trackBy: trackNiveauById">{{niveauOption.nom}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.niveau?.dirty && editForm.controls.niveau?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.niveau?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+              <div class="form-group">
+                <label class="form-control-label" for="field_image">Image</label>
+                <div>
+                  <img [src]="'data:' + etudiant.imageContentType + ';base64,' + etudiant.image" style="max-height: 100px;" *ngIf="etudiant.image" alt="profile image"/>
+                  <div *ngIf="etudiant.image" class="form-text text-danger clearfix">
+                    <span class="pull-left">{{etudiant.imageContentType}}, {{byteSize(etudiant.image)}}</span>
+                    <button type="button" (click)="clearInputImage('image', 'imageContentType', 'fileImage')" class="btn btn-secondary btn-xs pull-right">
+                      <fa-icon [icon]="'times'"></fa-icon>
+                    </button>
+                  </div>
+                  <input type="file" id="file_image" (change)="setFileData($event, etudiant, 'image', true)" accept="image/*"/>
+                </div>
+                <input type="hidden" class="form-control" name="image" id="field_image"
+                       [(ngModel)]="etudiant.image" />
+                <input type="hidden" class="form-control" name="imageContentType" id="field_imageContentType"
+                       [(ngModel)]="etudiant.imageContentType" />
+              </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

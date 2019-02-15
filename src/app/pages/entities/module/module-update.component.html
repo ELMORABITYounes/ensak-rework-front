@@ -1,0 +1,91 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-module-heading">Ajouter ou modifier un Module</h2>
+          <hr/>
+          <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!module.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="module.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nom">Nom</label>
+                    <input type="text" class="form-control" name="nom" id="field_nom"
+                        [(ngModel)]="module.nom" required/>
+                    <div [hidden]="!(editForm.controls.nom?.dirty && editForm.controls.nom?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.nom?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nbrHeuresCours">Nbr Heures Cours</label>
+                    <input type="number" class="form-control" name="nbrHeuresCours" id="field_nbrHeuresCours"
+                        [(ngModel)]="module.nbrHeuresCours" required max="46" jhiMax="46"/>
+                    <div [hidden]="!(editForm.controls.nbrHeuresCours?.dirty && editForm.controls.nbrHeuresCours?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.nbrHeuresCours?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.nbrHeuresCours?.errors?.max">
+                            This field cannot be more than 46.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.nbrHeuresCours?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nbrHeuresTD">Nbr Heures TD</label>
+                    <input type="number" class="form-control" name="nbrHeuresTD" id="field_nbrHeuresTD"
+                        [(ngModel)]="module.nbrHeuresTD" required max="46" jhiMax="46"/>
+                    <div [hidden]="!(editForm.controls.nbrHeuresTD?.dirty && editForm.controls.nbrHeuresTD?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.nbrHeuresTD?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.nbrHeuresTD?.errors?.max">
+                            This field cannot be more than 46.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.nbrHeuresTD?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_departement">Departement</label>
+                    <select class="form-control" id="field_departement" name="departement" [(ngModel)]="module.departement"  required>
+                        <option *ngIf="!editForm.value.departement" [ngValue]="null" selected></option>
+                        <option [ngValue]="departementOption.id === module.departement?.id ? module.departement : departementOption" *ngFor="let departementOption of departements; trackBy: trackDepartementById">{{departementOption.nom}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.departement?.dirty && editForm.controls.departement?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.departement?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

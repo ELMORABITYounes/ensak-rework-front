@@ -1,0 +1,45 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div>
+  <div class="row page-header">
+    <div class="col-lg-12">
+      <h2>Modules:</h2>
+      <hr>
+    </div>
+  </div>
+  <jhi-alert-error></jhi-alert-error>
+  <jhi-alert></jhi-alert>
+  <br/>
+  <div *ngIf="loading" class="text-center">
+    <h3 class="text-center">Chargement...</h3>
+    <img src="assets/images/loader.gif">
+  </div>
+    <div class="table-responsive" *ngIf="modules">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th><span>Nom</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th><span>Nbr Heures Cours</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th><span>Nbr Heures TD</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th><span>Departement</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let module of modules ;trackBy: trackId">
+                <td><a [routerLink]="['/pages/modules/module', module.id, 'view' ]">{{module.id}}</a></td>
+                <td>{{module.nom}}</td>
+                <td>{{module.nbrHeuresCours}}</td>
+                <td>{{module.nbrHeuresTD}}</td>
+                <td>
+                    <div *ngIf="module.departement">
+                        <a [routerLink]="['/pages/departements/departement', module.departement?.id, 'view' ]" >{{module.departement?.nom}}</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

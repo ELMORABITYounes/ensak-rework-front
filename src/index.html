@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ENSA Khouribga</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    body{
+      overflow: hidden visible !important;
+    }
+  </style>
+</head>
+<body>
+  <ngx-app>
+    <style>
+      .loading{
+        display: flex;
+        flex-direction: column; /* make main-axis vertical */
+        justify-content: center; /* align items vertically, in this case */
+        align-items: center;
+        height: 90vh;
+      }
+      .loader1 {
+        display: block;
+        position: relative;
+        margin: auto;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+      }
+      .logo{
+        margin-bottom: 10px;
+      }
+      .loader1.dots{
+        height: 8px;
+        width: 52px;
+        margin: -4px 0 0 -26px;
+      }
+      .loader1.dots span{
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: #124e9a;
+        -webkit-animation: spindots 1.2s infinite ease-in-out;
+        animation: spindots 1.2s infinite ease-in-out;
+      }
+      .loader1.dots span:nth-child(2){
+        left: 13px;
+        -webkit-animation-delay: .15s;
+        animation-delay: .15s;
+      }
+      .loader1.dots span:nth-child(3){
+        left: 26px;
+        -webkit-animation-delay: .25s;
+        animation-delay: .25s;
+      }
+      .loader1.dots span:nth-child(4){
+        left: 39px;
+        -webkit-animation-delay: .35s;
+        animation-delay: .35s;
+      }
+      .loader1.dots span:nth-child(5){
+        left: 51px;
+        -webkit-animation-delay: .45s;
+        animation-delay: .45s;
+      }
+      @keyframes spindots{
+        0%, 50%, 100% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      @-webkit-keyframes spindots {
+        0%, 50%, 100% {
+          opacity: 0;
+          background: #124e9a;
+        }
+        50% {
+          opacity: 1;
+          background: #124e9a;
+        }
+      }
+    </style>
+    <div class="loading">
+      <img class="logo" src="favicon.png">
+      <div class="loader1 dots">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+  </ngx-app>
+</body>
+</html>

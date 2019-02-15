@@ -1,0 +1,80 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div>
+  <div class="row page-header">
+    <div class="col-lg-12">
+      <h2>Societés:</h2>
+      <hr>
+      <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-societe" [routerLink]="['/pages/societes/societe/new']">
+        <fa-icon [icon]="'plus'"></fa-icon>
+        <span >
+            Ajouter une Societé
+            </span>
+      </button>
+    </div>
+  </div>
+    <jhi-alert-error></jhi-alert-error><jhi-alert></jhi-alert>
+    <br/>
+  <div *ngIf="loading" class="text-center">
+    <h3 class="text-center">Chargement...</h3>
+    <img src="assets/images/loader.gif">
+  </div>
+    <div class="table-responsive" *ngIf="societes">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="nom"><span>Nom</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="ville"><span>Ville</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="adresse"><span>Adresse</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+              <th jhiSortBy="telephone"><span>Télephone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="secteursActivite"><span>Secteurs Activite</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let societe of societes ;trackBy: trackId">
+                <td><a [routerLink]="['/pages/societes/societe', societe.id, 'view' ]">{{societe.id}}</a></td>
+                <td>{{societe.nom}}</td>
+                <td>{{societe.ville}}</td>
+              <td>{{societe.adresse}}</td>
+              <td>{{societe.telephone}}</td>
+                <td>{{societe.secteursActivite}}</td>
+              <td><a class="btn btn-sm btn-outline-warning" [routerLink]="['/pages/superviseurs/superviseur',societe.id]"><fa-icon [icon]="'users'"></fa-icon>encadrants</a></td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/pages/societes/societe', societe.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/pages/societes/societe', societe.id, 'edit']"
+                                class="btn btn-primary btn-sm" style="border-radius: 0 !important;">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/pages/societes/', { outlets: { popup: 'societe/'+ societe.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="societes && societes.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

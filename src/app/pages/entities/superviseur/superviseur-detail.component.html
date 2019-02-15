@@ -1,0 +1,49 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="superviseur">
+            <h2><span>Superviseur</span> {{superviseur.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Nom</span></dt>
+                <dd>
+                    <span>{{superviseur.nom}}</span>
+                </dd>
+                <dt><span>Prenom</span></dt>
+                <dd>
+                    <span>{{superviseur.prenom}}</span>
+                </dd>
+                <dt><span>Email</span></dt>
+                <dd>
+                    <span>{{superviseur.email}}</span>
+                </dd>
+                <dt><span>Tel</span></dt>
+                <dd>
+                    <span>{{superviseur.tel}}</span>
+                </dd>
+                <dt><span>Societe</span></dt>
+                <dd>
+                    <div *ngIf="superviseur.societe">
+                        <a [routerLink]="['/pages/societes/societe', superviseur.societe?.id, 'view']">{{superviseur.societe?.nom}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_STUDENT']" type="button"
+                    [routerLink]="['/pages/superviseurs/superviseur', superviseur.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

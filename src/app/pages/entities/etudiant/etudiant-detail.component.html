@@ -1,0 +1,64 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="etudiant">
+            <h2><span>Etudiant</span> {{etudiant.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Cne</span></dt>
+                <dd>
+                    <span>{{etudiant.cne}}</span>
+                </dd>
+              <dt><span>Prénom</span></dt>
+              <dd>
+                <span>{{etudiant.user.firstName}}</span>
+              </dd>
+              <dt><span>Nom</span></dt>
+              <dd>
+                <span>{{etudiant.user.lastName}}</span>
+              </dd>
+              <dt><span>Email</span></dt>
+              <dd>
+                <span>{{etudiant.user.username}}</span>
+              </dd>
+              <dt><span>Télephone</span></dt>
+              <dd>
+                <span>{{etudiant.user.telephone}}</span>
+              </dd>
+                <dt><span>Niveau</span></dt>
+                <dd>
+                    <div *ngIf="etudiant.niveau">
+                        <a [routerLink]="['/pages/niveaux/niveau', etudiant.niveau?.id, 'view']">{{etudiant.niveau?.nom}}</a>
+                    </div>
+                </dd>
+            </dl>
+          <dl class="row-md jh-entity-details">
+            <dt><span>Image</span></dt>
+            <dd>
+              <div *ngIf="etudiant.image">
+                <a (click)="openFile(etudiant.imageContentType, etudiant.image)">
+                  <img [src]="'data:' + etudiant.imageContentType + ';base64,' + etudiant.image" style="max-width: 100%;" alt="profile image"/>
+                </a>
+                {{etudiant.imageContentType}}, {{byteSize(etudiant.image)}}
+              </div>
+            </dd>
+          </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button *jhiHasAnyAuthority="['ROLE_ADMIN']" type="button"
+                    [routerLink]="['/pages/etudiants/etudiant', etudiant.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

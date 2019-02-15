@@ -1,0 +1,14 @@
+{
+  "/login": {
+    "target": "https://ensakh.herokuapp.com/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/api/*": {
+    "target": "https://ensakh.herokuapp.com/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

@@ -1,0 +1,78 @@
+
+<nb-card accent="info">
+  <nb-card-body>
+    <div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="stage">
+            <h2><span>Stage</span> {{stage.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Sujet</span></dt>
+                <dd>
+                    <span>{{stage.sujet}}</span>
+                </dd>
+                <dt><span>Date Debut</span></dt>
+                <dd>
+                    <span>{{stage.dateDebut}}</span>
+                </dd>
+                <dt><span>Date Fin</span></dt>
+                <dd>
+                    <span>{{stage.dateFin}}</span>
+                </dd>
+                <dt><span>Technologies</span></dt>
+                <dd>
+                    <span>{{stage.technologies}}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{stage.type}}</span>
+                </dd>
+                <dt><span>Soutenance</span></dt>
+                <dd>
+                    <div *ngIf="stage.soutenance">
+                        <a [routerLink]="['/pages/soutenances/soutenance', stage.soutenance?.id, 'view']">{{stage.soutenance?.date}}</a>
+                    </div>
+                </dd>
+                <dt><span>Etudiant</span></dt>
+                <dd>
+                    <div *ngIf="stage.etudiant">
+                        <a [routerLink]="['/pages/etudiants/etudiant', stage.etudiant?.id, 'view']">{{stage.etudiant?.cne}}</a>
+                    </div>
+                </dd>
+                <dt><span>Superviseur</span></dt>
+                <dd>
+                    <div *ngIf="stage.superviseur">
+                        <a [routerLink]="['/pages/superviseurs/superviseur', stage.superviseur?.id, 'view']">{{stage.superviseur?.nom}}</a>
+                    </div>
+                </dd>
+                <dt><span>Professeur Encadrant</span></dt>
+                <dd>
+                    <div *ngIf="stage.professeurEncadrant">
+                        <a [routerLink]="['/pages/professeurs/professeur', stage.professeurEncadrant?.id, 'view']">{{stage.professeurEncadrant?.nom}}</a>
+                    </div>
+                </dd>
+                <dt><span>Societe</span></dt>
+                <dd>
+                    <div *ngIf="stage.societe">
+                        <a [routerLink]="['/pages/societes/societe', stage.societe?.id, 'view']">{{stage.societe?.nom}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_STUDENT']" type="button"
+                    [routerLink]="['/pages/stages/stage', stage.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

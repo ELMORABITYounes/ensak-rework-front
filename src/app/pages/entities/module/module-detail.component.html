@@ -1,0 +1,45 @@
+<nb-card accent="info">
+  <nb-card-body>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="module">
+            <h2><span>Module</span> {{module.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Nom</span></dt>
+                <dd>
+                    <span>{{module.nom}}</span>
+                </dd>
+                <dt><span>Nbr Heures Cours</span></dt>
+                <dd>
+                    <span>{{module.nbrHeuresCours}}</span>
+                </dd>
+                <dt><span>Nbr Heures TD</span></dt>
+                <dd>
+                    <span>{{module.nbrHeuresTD}}</span>
+                </dd>
+                <dt><span>Departement</span></dt>
+                <dd>
+                    <div *ngIf="module.departement">
+                        <a [routerLink]="['/pages/departements/departement', module.departement?.id, 'view']">{{module.departement?.nom}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_TEACHER']" type="button"
+                    [routerLink]="['/pages/modules/module', module.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+  </nb-card-body>
+</nb-card>

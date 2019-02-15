@@ -1,0 +1,74 @@
+<nb-card-header>
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header">Etudiants:</h2>
+      <hr>
+    </div>
+  </div>
+</nb-card-header>
+<nb-card-body>
+<div>
+    <h2 id="page-heading">
+        <span>Niveaus</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-niveau" [routerLink]="['/niveau/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Ajouter un Niveau
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error><jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="niveaus">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="nom"><span>Nom</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="filiere.nom"><span>Filiere</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let niveau of niveaus ;trackBy: trackId">
+                <td><a [routerLink]="['/niveau', niveau.id, 'view' ]">{{niveau.id}}</a></td>
+                <td>{{niveau.nom}}</td>
+                <td>
+                    <div *ngIf="niveau.filiere">
+                        <a [routerLink]="['../filiere', niveau.filiere?.id, 'view' ]" >{{niveau.filiere?.nom}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/niveau', niveau.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/niveau', niveau.id, 'edit']"
+                                class="btn btn-primary btn-sm" style="border-radius: 0 !important;">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'niveau/'+ niveau.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="niveaus && niveaus.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
